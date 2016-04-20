@@ -1,11 +1,18 @@
 define(['exports', 'aurelia-router', './flux-dispatcher'], function (exports, _aureliaRouter, _fluxDispatcher) {
   'use strict';
 
-  exports.__esModule = true;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.RouterManager = undefined;
 
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
 
-  var RouterManager = (function () {
+  var RouterManager = exports.RouterManager = function () {
     function RouterManager() {
       _classCallCheck(this, RouterManager);
     }
@@ -19,24 +26,22 @@ define(['exports', 'aurelia-router', './flux-dispatcher'], function (exports, _a
     };
 
     return RouterManager;
-  })();
+  }();
 
-  exports.RouterManager = RouterManager;
-
-  var FluxLifeCycleStep = (function () {
+  var FluxLifeCycleStep = function () {
     function FluxLifeCycleStep() {
       _classCallCheck(this, FluxLifeCycleStep);
     }
 
     FluxLifeCycleStep.prototype.run = function run(context, next) {
 
-      if (context && context.plan && context.plan['default']) {
-        _fluxDispatcher.FluxDispatcher.instance.strategy = context.plan['default'].strategy;
+      if (context && context.plan && context.plan.default) {
+        _fluxDispatcher.FluxDispatcher.instance.strategy = context.plan.default.strategy;
       }
 
       return next();
     };
 
     return FluxLifeCycleStep;
-  })();
+  }();
 });

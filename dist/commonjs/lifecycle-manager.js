@@ -1,10 +1,9 @@
 'use strict';
 
-exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.LifecycleManager = undefined;
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
@@ -24,7 +23,11 @@ var _bluebird2 = _interopRequireDefault(_bluebird);
 
 var _aureliaRouter = require('aurelia-router');
 
-var LifecycleManager = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var LifecycleManager = exports.LifecycleManager = function () {
     function LifecycleManager() {
         _classCallCheck(this, LifecycleManager);
     }
@@ -130,7 +133,7 @@ var LifecycleManager = (function () {
             });
 
             if (dispatcher) {
-                var instancePromise = _bluebird2['default'].defer();
+                var instancePromise = _bluebird2.default.defer();
                 args[args.indexOf(dispatcher)] = new _instanceDispatcher.DispatcherProxy(instancePromise.promise);
                 instance = invokeImpl.apply(this, invokeArgs);
                 instance[_symbols.Symbols.instanceDispatcher] = new _instanceDispatcher.Dispatcher(instance);
@@ -155,6 +158,4 @@ var LifecycleManager = (function () {
     };
 
     return LifecycleManager;
-})();
-
-exports.LifecycleManager = LifecycleManager;
+}();

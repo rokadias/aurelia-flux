@@ -1,9 +1,10 @@
 define(['exports', '../metadata'], function (exports, _metadata) {
     'use strict';
 
-    exports.__esModule = true;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     exports.waitFor = waitFor;
-
     function waitFor() {
         for (var _len = arguments.length, types = Array(_len), _key = 0; _key < _len; _key++) {
             types[_key] = arguments[_key];

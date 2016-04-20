@@ -13,7 +13,7 @@ class Handler {
 
 export class Dispatcher {
 
-    constructor(instance : Object) {              
+    constructor(instance : Object) {
         this.instance = instance;
         this.handlers = new Set();
 

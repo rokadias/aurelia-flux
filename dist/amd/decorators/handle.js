@@ -1,9 +1,10 @@
 define(['exports', '../metadata'], function (exports, _metadata) {
     'use strict';
 
-    exports.__esModule = true;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     exports.handle = handle;
-
     function handle() {
         for (var _len = arguments.length, patterns = Array(_len), _key = 0; _key < _len; _key++) {
             patterns[_key] = arguments[_key];

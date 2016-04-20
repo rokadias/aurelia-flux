@@ -1,9 +1,13 @@
-System.register(['aurelia-dependency-injection', 'aurelia-templating', './instance-dispatcher', './flux-dispatcher', './metadata', './symbols', 'bluebird', 'aurelia-router'], function (_export) {
-    'use strict';
+'use strict';
 
+System.register(['aurelia-dependency-injection', 'aurelia-templating', './instance-dispatcher', './flux-dispatcher', './metadata', './symbols', 'bluebird', 'aurelia-router'], function (_export, _context) {
     var ClassActivator, HtmlBehaviorResource, Dispatcher, DispatcherProxy, FluxDispatcher, Metadata, Symbols, Promise, activationStrategy, LifecycleManager;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
 
     return {
         setters: [function (_aureliaDependencyInjection) {
@@ -20,12 +24,12 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', './instan
         }, function (_symbols) {
             Symbols = _symbols.Symbols;
         }, function (_bluebird) {
-            Promise = _bluebird['default'];
+            Promise = _bluebird.default;
         }, function (_aureliaRouter) {
             activationStrategy = _aureliaRouter.activationStrategy;
         }],
         execute: function () {
-            LifecycleManager = (function () {
+            _export('LifecycleManager', LifecycleManager = function () {
                 function LifecycleManager() {
                     _classCallCheck(this, LifecycleManager);
                 }
@@ -156,7 +160,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', './instan
                 };
 
                 return LifecycleManager;
-            })();
+            }());
 
             _export('LifecycleManager', LifecycleManager);
         }

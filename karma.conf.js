@@ -3,13 +3,14 @@
 
 var babelOptions = {
   sourceMap: 'inline',
-  modules: 'system',
-  moduleIds: false,
-  comments: false,
-  loose: "all",
-  optional: [    
-    "es7.decorators",
-    "es7.classProperties"
+  presets: [
+    "stage-1",
+    "es2015-loose"
+  ],
+  plugins: [
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    "transform-flow-strip-types"
   ]
 };
 

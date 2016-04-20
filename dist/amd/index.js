@@ -1,12 +1,29 @@
-define(['exports', './lifecycle-manager', './router', './instance-dispatcher', './decorators/handle', './decorators/waitFor'], function (exports, _lifecycleManager, _router, _instanceDispatcher, _decoratorsHandle, _decoratorsWaitFor) {
+define(['exports', './instance-dispatcher', './decorators/handle', './decorators/waitFor', './lifecycle-manager', './router'], function (exports, _instanceDispatcher, _handle, _waitFor, _lifecycleManager, _router) {
     'use strict';
 
-    exports.__esModule = true;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.waitFor = exports.handle = exports.Dispatcher = undefined;
+    Object.defineProperty(exports, 'Dispatcher', {
+        enumerable: true,
+        get: function () {
+            return _instanceDispatcher.Dispatcher;
+        }
+    });
+    Object.defineProperty(exports, 'handle', {
+        enumerable: true,
+        get: function () {
+            return _handle.handle;
+        }
+    });
+    Object.defineProperty(exports, 'waitFor', {
+        enumerable: true,
+        get: function () {
+            return _waitFor.waitFor;
+        }
+    });
     exports.configure = configure;
-    exports.Dispatcher = _instanceDispatcher.Dispatcher;
-    exports.handle = _decoratorsHandle.handle;
-    exports.waitFor = _decoratorsWaitFor.waitFor;
-
     function configure(aurelia, configCallback) {
         _lifecycleManager.LifecycleManager.interceptClassActivator();
         _lifecycleManager.LifecycleManager.interceptHtmlBehaviorResource();

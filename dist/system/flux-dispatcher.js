@@ -1,26 +1,22 @@
-System.register(['bluebird', './instance-dispatcher'], function (_export) {
-    'use strict';
+'use strict';
 
+System.register(['bluebird', './instance-dispatcher'], function (_export, _context) {
     var Promise, Dispatcher, FluxDispatcher;
 
-    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
 
     return {
         setters: [function (_bluebird) {
-            Promise = _bluebird['default'];
+            Promise = _bluebird.default;
         }, function (_instanceDispatcher) {
             Dispatcher = _instanceDispatcher.Dispatcher;
         }],
         execute: function () {
-            FluxDispatcher = (function () {
-                _createClass(FluxDispatcher, null, [{
-                    key: 'instance',
-                    value: new FluxDispatcher(),
-                    enumerable: true
-                }]);
-
+            _export('FluxDispatcher', FluxDispatcher = function () {
                 function FluxDispatcher() {
                     _classCallCheck(this, FluxDispatcher);
 
@@ -67,10 +63,10 @@ System.register(['bluebird', './instance-dispatcher'], function (_export) {
                         return;
                     }
 
-                    this.instanceDispatchers.get(type)['delete'](dispatcher);
+                    this.instanceDispatchers.get(type).delete(dispatcher);
 
                     if (this.instanceDispatchers.get(type).size === 0) {
-                        this.instanceDispatchers['delete'](type);
+                        this.instanceDispatchers.delete(type);
                     }
                 };
 
@@ -106,8 +102,8 @@ System.register(['bluebird', './instance-dispatcher'], function (_export) {
                     this.typesPromises.forEach(function (promise, type) {
                         if (_this.instanceDispatchers.has(type) === false) {
 
-                            var _name = type !== undefined && type.constructor !== undefined && type.constructor.name !== undefined ? type.constructor.name : type.toString();
-                            console.warn('You are waiting for a type \'' + _name + '\' that didn\'t handle event \'' + action + '\'. ' + _name + ' promise has been resolved automatically.');
+                            var name = type !== undefined && type.constructor !== undefined && type.constructor.name !== undefined ? type.constructor.name : type.toString();
+                            console.warn('You are waiting for a type \'' + name + '\' that didn\'t handle event \'' + action + '\'. ' + name + ' promise has been resolved automatically.');
 
                             promise.resolve();
                         }
@@ -145,7 +141,7 @@ System.register(['bluebird', './instance-dispatcher'], function (_export) {
                     Promise.settle(typesPromises).then(function () {
                         Promise.resolve(handler()).then(function (ret) {
                             def.resolve(ret);
-                        })['catch'](function (err) {
+                        }).catch(function (err) {
                             def.reject(err);
                         });
                     });
@@ -154,9 +150,11 @@ System.register(['bluebird', './instance-dispatcher'], function (_export) {
                 };
 
                 return FluxDispatcher;
-            })();
+            }());
 
             _export('FluxDispatcher', FluxDispatcher);
+
+            FluxDispatcher.instance = new FluxDispatcher();
         }
     };
 });

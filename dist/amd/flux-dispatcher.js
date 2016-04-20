@@ -1,23 +1,26 @@
 define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _bluebird, _instanceDispatcher) {
     'use strict';
 
-    exports.__esModule = true;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.FluxDispatcher = undefined;
 
-    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+    var _bluebird2 = _interopRequireDefault(_bluebird);
 
-    function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
 
-    var _Promise = _interopRequireDefault(_bluebird);
-
-    var FluxDispatcher = (function () {
-        _createClass(FluxDispatcher, null, [{
-            key: 'instance',
-            value: new FluxDispatcher(),
-            enumerable: true
-        }]);
-
+    var FluxDispatcher = exports.FluxDispatcher = function () {
         function FluxDispatcher() {
             _classCallCheck(this, FluxDispatcher);
 
@@ -37,7 +40,7 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
 
         FluxDispatcher.prototype.getOrCreateTypePromises = function getOrCreateTypePromises(type) {
             if (this.typesPromises.has(type) === false) {
-                this.typesPromises.set(type, _Promise['default'].defer());
+                this.typesPromises.set(type, _bluebird2.default.defer());
             }
 
             return this.typesPromises.get(type);
@@ -64,10 +67,10 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
                 return;
             }
 
-            this.instanceDispatchers.get(type)['delete'](dispatcher);
+            this.instanceDispatchers.get(type).delete(dispatcher);
 
             if (this.instanceDispatchers.get(type).size === 0) {
-                this.instanceDispatchers['delete'](type);
+                this.instanceDispatchers.delete(type);
             }
         };
 
@@ -95,7 +98,7 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
                     promises.push(dispatcher.dispatchOwn.apply(dispatcher, [action, payload]));
                 });
 
-                _Promise['default'].settle(promises).then(function () {
+                _bluebird2.default.settle(promises).then(function () {
                     typePromise.resolve();
                 });
             });
@@ -103,8 +106,8 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
             this.typesPromises.forEach(function (promise, type) {
                 if (_this.instanceDispatchers.has(type) === false) {
 
-                    var _name = type !== undefined && type.constructor !== undefined && type.constructor.name !== undefined ? type.constructor.name : type.toString();
-                    console.warn('You are waiting for a type \'' + _name + '\' that didn\'t handle event \'' + action + '\'. ' + _name + ' promise has been resolved automatically.');
+                    var name = type !== undefined && type.constructor !== undefined && type.constructor.name !== undefined ? type.constructor.name : type.toString();
+                    console.warn('You are waiting for a type \'' + name + '\' that didn\'t handle event \'' + action + '\'. ' + name + ' promise has been resolved automatically.');
 
                     promise.resolve();
                 }
@@ -114,7 +117,7 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
                 return defer.promise;
             });
 
-            _Promise['default'].settle(allTypesPromises).then(function () {
+            _bluebird2.default.settle(allTypesPromises).then(function () {
                 var next = _this.queue.shift();
                 setTimeout(function () {
                     if (next !== undefined) {
@@ -137,12 +140,12 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
                 return _this2.getOrCreateTypePromises(type.prototype).promise;
             });
 
-            var def = _Promise['default'].defer();
+            var def = _bluebird2.default.defer();
 
-            _Promise['default'].settle(typesPromises).then(function () {
-                _Promise['default'].resolve(handler()).then(function (ret) {
+            _bluebird2.default.settle(typesPromises).then(function () {
+                _bluebird2.default.resolve(handler()).then(function (ret) {
                     def.resolve(ret);
-                })['catch'](function (err) {
+                }).catch(function (err) {
                     def.reject(err);
                 });
             });
@@ -151,7 +154,7 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
         };
 
         return FluxDispatcher;
-    })();
+    }();
 
-    exports.FluxDispatcher = FluxDispatcher;
+    FluxDispatcher.instance = new FluxDispatcher();
 });

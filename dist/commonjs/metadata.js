@@ -1,12 +1,15 @@
 'use strict';
 
-exports.__esModule = true;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Metadata = undefined;
 
 var _symbols = require('./symbols');
 
-var Metadata = (function () {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Metadata = exports.Metadata = function () {
     Metadata.getOrCreateMetadata = function getOrCreateMetadata(target) {
         if (target[_symbols.Symbols.metadata] === undefined) {
             target[_symbols.Symbols.metadata] = new Metadata();
@@ -27,6 +30,4 @@ var Metadata = (function () {
     }
 
     return Metadata;
-})();
-
-exports.Metadata = Metadata;
+}();

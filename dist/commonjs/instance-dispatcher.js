@@ -1,10 +1,9 @@
 'use strict';
 
-exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.DispatcherProxy = exports.Dispatcher = undefined;
 
 var _metadata = require('./metadata');
 
@@ -18,14 +17,18 @@ var _bluebird2 = _interopRequireDefault(_bluebird);
 
 var _symbols = require('./symbols');
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var Handler = function Handler(regexp, handler) {
     _classCallCheck(this, Handler);
 
     this.regexp = regexp;
-    this['function'] = handler;
+    this.function = handler;
 };
 
-var Dispatcher = (function () {
+var Dispatcher = exports.Dispatcher = function () {
     function Dispatcher(instance) {
         _classCallCheck(this, Dispatcher);
 
@@ -42,7 +45,7 @@ var Dispatcher = (function () {
         this.handlers.add(handler);
 
         return function () {
-            _this.handlers['delete'](handler);
+            _this.handlers.delete(handler);
         };
     };
 
@@ -65,11 +68,11 @@ var Dispatcher = (function () {
 
         this.handlers.forEach(function (handler) {
             if (handler.regexp.test(action)) {
-                promises.push(_bluebird2['default'].resolve(handler['function'].apply(_this2.instance, [action].concat(payload))));
+                promises.push(_bluebird2.default.resolve(handler.function.apply(_this2.instance, [action].concat(payload))));
             }
         });
 
-        return _bluebird2['default'].settle(promises);
+        return _bluebird2.default.settle(promises);
     };
 
     Dispatcher.prototype.registerMetadata = function registerMetadata() {
@@ -100,17 +103,15 @@ var Dispatcher = (function () {
     };
 
     return Dispatcher;
-})();
+}();
 
-exports.Dispatcher = Dispatcher;
-
-var DispatcherProxy = (function () {
+var DispatcherProxy = exports.DispatcherProxy = function () {
     function DispatcherProxy(instancePromise) {
         var _this4 = this;
 
         _classCallCheck(this, DispatcherProxy);
 
-        this.inititalize = _bluebird2['default'].resolve(instancePromise).then(function (instance) {
+        this.inititalize = _bluebird2.default.resolve(instancePromise).then(function (instance) {
             _this4.instance = instance;
         });
     }
@@ -118,7 +119,7 @@ var DispatcherProxy = (function () {
     DispatcherProxy.prototype.handle = function handle(patterns, handler) {
         var _this5 = this;
 
-        var def = _bluebird2['default'].defer();
+        var def = _bluebird2.default.defer();
 
         this.inititalize.then(function () {
             def.resolve(_this5.instance[_symbols.Symbols.instanceDispatcher].handle(patterns, handler));
@@ -152,6 +153,4 @@ var DispatcherProxy = (function () {
     };
 
     return DispatcherProxy;
-})();
-
-exports.DispatcherProxy = DispatcherProxy;
+}();

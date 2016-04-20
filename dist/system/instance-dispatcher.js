@@ -1,9 +1,13 @@
-System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './symbols'], function (_export) {
-    'use strict';
+'use strict';
 
+System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './symbols'], function (_export, _context) {
     var Metadata, Utils, FluxDispatcher, Promise, Symbols, Handler, Dispatcher, DispatcherProxy;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
 
     return {
         setters: [function (_metadata) {
@@ -13,7 +17,7 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
         }, function (_fluxDispatcher) {
             FluxDispatcher = _fluxDispatcher.FluxDispatcher;
         }, function (_bluebird) {
-            Promise = _bluebird['default'];
+            Promise = _bluebird.default;
         }, function (_symbols) {
             Symbols = _symbols.Symbols;
         }],
@@ -22,10 +26,10 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
                 _classCallCheck(this, Handler);
 
                 this.regexp = regexp;
-                this['function'] = handler;
+                this.function = handler;
             };
 
-            Dispatcher = (function () {
+            _export('Dispatcher', Dispatcher = function () {
                 function Dispatcher(instance) {
                     _classCallCheck(this, Dispatcher);
 
@@ -42,7 +46,7 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
                     this.handlers.add(handler);
 
                     return function () {
-                        _this.handlers['delete'](handler);
+                        _this.handlers.delete(handler);
                     };
                 };
 
@@ -65,7 +69,7 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
 
                     this.handlers.forEach(function (handler) {
                         if (handler.regexp.test(action)) {
-                            promises.push(Promise.resolve(handler['function'].apply(_this2.instance, [action].concat(payload))));
+                            promises.push(Promise.resolve(handler.function.apply(_this2.instance, [action].concat(payload))));
                         }
                     });
 
@@ -100,11 +104,11 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
                 };
 
                 return Dispatcher;
-            })();
+            }());
 
             _export('Dispatcher', Dispatcher);
 
-            DispatcherProxy = (function () {
+            _export('DispatcherProxy', DispatcherProxy = function () {
                 function DispatcherProxy(instancePromise) {
                     var _this4 = this;
 
@@ -152,7 +156,7 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
                 };
 
                 return DispatcherProxy;
-            })();
+            }());
 
             _export('DispatcherProxy', DispatcherProxy);
         }

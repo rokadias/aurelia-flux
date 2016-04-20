@@ -1,15 +1,26 @@
 define(['exports', 'aurelia-dependency-injection', 'aurelia-templating', './instance-dispatcher', './flux-dispatcher', './metadata', './symbols', 'bluebird', 'aurelia-router'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _instanceDispatcher, _fluxDispatcher, _metadata, _symbols, _bluebird, _aureliaRouter) {
     'use strict';
 
-    exports.__esModule = true;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.LifecycleManager = undefined;
 
-    function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+    var _bluebird2 = _interopRequireDefault(_bluebird);
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
 
-    var _Promise = _interopRequireDefault(_bluebird);
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
 
-    var LifecycleManager = (function () {
+    var LifecycleManager = exports.LifecycleManager = function () {
         function LifecycleManager() {
             _classCallCheck(this, LifecycleManager);
         }
@@ -115,7 +126,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-templating', './inst
                 });
 
                 if (dispatcher) {
-                    var instancePromise = _Promise['default'].defer();
+                    var instancePromise = _bluebird2.default.defer();
                     args[args.indexOf(dispatcher)] = new _instanceDispatcher.DispatcherProxy(instancePromise.promise);
                     instance = invokeImpl.apply(this, invokeArgs);
                     instance[_symbols.Symbols.instanceDispatcher] = new _instanceDispatcher.Dispatcher(instance);
@@ -140,7 +151,5 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-templating', './inst
         };
 
         return LifecycleManager;
-    })();
-
-    exports.LifecycleManager = LifecycleManager;
+    }();
 });
