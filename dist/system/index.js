@@ -25,7 +25,7 @@ System.register(['./instance-dispatcher', './decorators/handle', './decorators/w
         }],
         execute: function () {
             function configure(aurelia, configCallback) {
-                LifecycleManager.interceptClassActivator();
+                LifecycleManager.interceptContainerInvocation();
                 LifecycleManager.interceptHtmlBehaviorResource();
                 RouterManager.AddFluxPipelineStep(aurelia);
             }

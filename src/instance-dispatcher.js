@@ -29,35 +29,35 @@ export class Dispatcher {
      * @return {() => void} - unregistering function
      */
     handle(patterns : String|String[], callback : ((action : String, ...payload : any[]) => any)) : (() => void)  {
-        var handler = new Handler(Utils.patternsToRegex(patterns), callback)
-        this.handlers.add(handler);
+      var handler = new Handler(Utils.patternsToRegex(patterns), callback);
+      this.handlers.add(handler);
 
-        return () => {
-            this.handlers.delete(handler);
-        };
+      return () => {
+        this.handlers.delete(handler);
+      };
     }
 
     /**
      * Registers a method that will be invoked when all
      * given types finish dispatching
-     * 
+     *
      * @method waitFor
      * @param {String|String[]} types
      * @param {(() => any)} handler
      * @return void
      */
-    waitFor(types : String|String[], handler : (() => any)) : void {                                            
+    waitFor(types : String|String[], handler : (() => any)) : void {
         FluxDispatcher.instance.waitFor(types, handler);
     }
 
     /**
      * Dispatches an action alond with all passed
      * parameters (paylod)
-     * 
+     *
      * @method dispatch
      * @param {String} action
      * @param {any[]} ...payload
-     * @return void 
+     * @return void
      */
     dispatch(action : String, ...payload:any[]) : void {
         FluxDispatcher.instance.dispatch(action, payload);
@@ -109,14 +109,14 @@ export class DispatcherProxy {
 
     handle(patterns, handler) {
         var def = Promise.defer();
-        
-        this.inititalize.then(() => {            
+
+        this.inititalize.then(() => {
             def.resolve(this.instance[Symbols.instanceDispatcher].handle(patterns, handler));
-        });                
-        
+        });
+
         return function() {
             def.promise.then((unregister) => unregister());
-        }
+        };
     }
 
     waitFor(types, handler) {

@@ -38,7 +38,7 @@ var _lifecycleManager = require('./lifecycle-manager');
 var _router = require('./router');
 
 function configure(aurelia, configCallback) {
-    _lifecycleManager.LifecycleManager.interceptClassActivator();
+    _lifecycleManager.LifecycleManager.interceptContainerInvocation();
     _lifecycleManager.LifecycleManager.interceptHtmlBehaviorResource();
     _router.RouterManager.AddFluxPipelineStep(aurelia);
 }

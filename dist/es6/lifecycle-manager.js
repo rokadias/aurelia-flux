@@ -1,4 +1,4 @@
-import {ClassActivator} from 'aurelia-dependency-injection';
+import {Container} from 'aurelia-dependency-injection';
 import {HtmlBehaviorResource} from 'aurelia-templating';
 import {Dispatcher, DispatcherProxy} from './instance-dispatcher';
 import {FluxDispatcher} from './flux-dispatcher';
@@ -77,18 +77,18 @@ export class LifecycleManager {
       };
     }
 
-    static interceptClassActivator() {
-        if(ClassActivator.instance === undefined || ClassActivator.instance.invoke === undefined) {
-            throw new Error('Unsupported version of ClassActivator');
+    static interceptContainerInvocation() {
+        if(Container.instance === undefined || Container.instance.invoke === undefined) {
+            throw new Error('Unsupported version of Dependency Injection Container');
         }
 
-        var invokeImpl = ClassActivator.instance.invoke;
-        ClassActivator.instance.invoke = function(...invokeArgs) {
+        var invokeImpl = Container.instance.invoke;
+        Container.instance.invoke = function(...invokeArgs) {
             var args = invokeArgs[1],
                 instance;
 
             if(Array.isArray(args) === false) {
-                throw new Error('Unsupported version of ClassActivator');
+                throw new Error('Unsupported version of Dependency Injection Container');
             }
 
             var dispatcher = args.find((item) => { return item instanceof Dispatcher; });

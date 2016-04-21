@@ -25,7 +25,7 @@ define(['exports', './instance-dispatcher', './decorators/handle', './decorators
     });
     exports.configure = configure;
     function configure(aurelia, configCallback) {
-        _lifecycleManager.LifecycleManager.interceptClassActivator();
+        _lifecycleManager.LifecycleManager.interceptContainerInvocation();
         _lifecycleManager.LifecycleManager.interceptHtmlBehaviorResource();
         _router.RouterManager.AddFluxPipelineStep(aurelia);
     }

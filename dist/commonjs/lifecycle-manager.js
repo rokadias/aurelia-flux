@@ -110,13 +110,13 @@ var LifecycleManager = exports.LifecycleManager = function () {
         };
     };
 
-    LifecycleManager.interceptClassActivator = function interceptClassActivator() {
-        if (_aureliaDependencyInjection.ClassActivator.instance === undefined || _aureliaDependencyInjection.ClassActivator.instance.invoke === undefined) {
-            throw new Error('Unsupported version of ClassActivator');
+    LifecycleManager.interceptContainerInvocation = function interceptContainerInvocation() {
+        if (_aureliaDependencyInjection.Container.instance === undefined || _aureliaDependencyInjection.Container.instance.invoke === undefined) {
+            throw new Error('Unsupported version of Dependency Injection Container');
         }
 
-        var invokeImpl = _aureliaDependencyInjection.ClassActivator.instance.invoke;
-        _aureliaDependencyInjection.ClassActivator.instance.invoke = function () {
+        var invokeImpl = _aureliaDependencyInjection.Container.instance.invoke;
+        _aureliaDependencyInjection.Container.instance.invoke = function () {
             for (var _len4 = arguments.length, invokeArgs = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
                 invokeArgs[_key4] = arguments[_key4];
             }
@@ -125,7 +125,7 @@ var LifecycleManager = exports.LifecycleManager = function () {
                 instance;
 
             if (Array.isArray(args) === false) {
-                throw new Error('Unsupported version of ClassActivator');
+                throw new Error('Unsupported version of Dependency Injection Container');
             }
 
             var dispatcher = args.find(function (item) {
