@@ -36,7 +36,8 @@
       "core-js": "npm:core-js"
     },
     "devDependencies": {
-      "babel-runtime": "npm:babel-runtime"
+      "babel-runtime": "npm:babel-runtime",
+      "core-js": "npm:core-js"
     },
     "peerDependencies": {
       "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
