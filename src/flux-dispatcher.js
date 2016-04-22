@@ -78,7 +78,8 @@ export class FluxDispatcher {
                promises.push(dispatcher.dispatchOwn.apply(dispatcher, [action, payload]));
             });
 
-            Promise.settle(promises).then(() => {
+            var reflects = promises.map(function(promise) { return promise.reflect(); });
+            Promise.all(reflects).then(() => {
                 typePromise.resolve();
             });
         });
@@ -95,7 +96,8 @@ export class FluxDispatcher {
 
         var allTypesPromises = Array.from(this.typesPromises.values()).map((defer) => { return defer.promise; });
 
-        Promise.settle(allTypesPromises).then(() => {
+        var allTypesReflects = allTypesPromises.map(function(promise) { return promise.reflect(); });
+        Promise.all(allTypesReflects).then(() => {
             let next = this.queue.shift();
             setTimeout(() => {
                 if(next !== undefined) {
@@ -118,7 +120,8 @@ export class FluxDispatcher {
 
         var def = Promise.defer();
 
-        Promise.settle(typesPromises).then(() => {
+        var typesReflects = typesPromises.map(function(promise) { return promise.reflect(); });
+        Promise.all(typesReflects).then(() => {
            Promise.resolve(handler()).then((ret) => {
              def.resolve(ret);
            }).catch((err) => {

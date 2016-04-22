@@ -73,7 +73,9 @@ System.register(['./metadata', './utils', './flux-dispatcher', 'bluebird', './sy
                         }
                     });
 
-                    return Promise.settle(promises);
+                    return Promise.all(promises.map(function (promise) {
+                        return promise.reflect();
+                    }));
                 };
 
                 Dispatcher.prototype.registerMetadata = function registerMetadata() {

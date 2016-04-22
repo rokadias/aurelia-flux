@@ -94,7 +94,10 @@ System.register(['bluebird', './instance-dispatcher'], function (_export, _conte
                             promises.push(dispatcher.dispatchOwn.apply(dispatcher, [action, payload]));
                         });
 
-                        Promise.settle(promises).then(function () {
+                        var reflects = promises.map(function (promise) {
+                            return promise.reflect();
+                        });
+                        Promise.all(reflects).then(function () {
                             typePromise.resolve();
                         });
                     });
@@ -113,7 +116,10 @@ System.register(['bluebird', './instance-dispatcher'], function (_export, _conte
                         return defer.promise;
                     });
 
-                    Promise.settle(allTypesPromises).then(function () {
+                    var allTypesReflects = allTypesPromises.map(function (promise) {
+                        return promise.reflect();
+                    });
+                    Promise.all(allTypesReflects).then(function () {
                         var next = _this.queue.shift();
                         setTimeout(function () {
                             if (next !== undefined) {
@@ -138,7 +144,10 @@ System.register(['bluebird', './instance-dispatcher'], function (_export, _conte
 
                     var def = Promise.defer();
 
-                    Promise.settle(typesPromises).then(function () {
+                    var typesReflects = typesPromises.map(function (promise) {
+                        return promise.reflect();
+                    });
+                    Promise.all(typesReflects).then(function () {
                         Promise.resolve(handler()).then(function (ret) {
                             def.resolve(ret);
                         }).catch(function (err) {

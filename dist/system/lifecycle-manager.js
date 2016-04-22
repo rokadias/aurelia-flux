@@ -113,12 +113,12 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', './instan
                 };
 
                 LifecycleManager.interceptContainerInvocation = function interceptContainerInvocation() {
-                    if (Container.instance === undefined || Container.instance.invoke === undefined) {
+                    if (Container.prototype === undefined || Container.prototype.invoke === undefined) {
                         throw new Error('Unsupported version of Dependency Injection Container');
                     }
 
-                    var invokeImpl = Container.instance.invoke;
-                    Container.instance.invoke = function () {
+                    var invokeImpl = Container.prototype.invoke;
+                    Container.prototype.invoke = function () {
                         for (var _len4 = arguments.length, invokeArgs = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
                             invokeArgs[_key4] = arguments[_key4];
                         }
@@ -126,13 +126,12 @@ System.register(['aurelia-dependency-injection', 'aurelia-templating', './instan
                         var args = invokeArgs[1],
                             instance;
 
-                        if (Array.isArray(args) === false) {
-                            throw new Error('Unsupported version of Dependency Injection Container');
+                        var dispatcher;
+                        if (Array.isArray(args) === true) {
+                            dispatcher = args.find(function (item) {
+                                return item instanceof Dispatcher;
+                            });
                         }
-
-                        var dispatcher = args.find(function (item) {
-                            return item instanceof Dispatcher;
-                        });
 
                         if (dispatcher) {
                             var instancePromise = Promise.defer();

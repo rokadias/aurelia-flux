@@ -78,20 +78,19 @@ export class LifecycleManager {
     }
 
     static interceptContainerInvocation() {
-        if(Container.instance === undefined || Container.instance.invoke === undefined) {
+        if(Container.prototype === undefined || Container.prototype.invoke === undefined) {
             throw new Error('Unsupported version of Dependency Injection Container');
         }
 
-        var invokeImpl = Container.instance.invoke;
-        Container.instance.invoke = function(...invokeArgs) {
+        var invokeImpl = Container.prototype.invoke;
+        Container.prototype.invoke = function(...invokeArgs) {
             var args = invokeArgs[1],
                 instance;
 
-            if(Array.isArray(args) === false) {
-                throw new Error('Unsupported version of Dependency Injection Container');
+            var dispatcher;
+            if(Array.isArray(args) === true) {
+                dispatcher = args.find((item) => { return item instanceof Dispatcher; });
             }
-
-            var dispatcher = args.find((item) => { return item instanceof Dispatcher; });
 
             if(dispatcher) {
                 var instancePromise = Promise.defer();

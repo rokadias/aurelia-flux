@@ -72,7 +72,9 @@ var Dispatcher = exports.Dispatcher = function () {
             }
         });
 
-        return _bluebird2.default.settle(promises);
+        return _bluebird2.default.all(promises.map(function (promise) {
+            return promise.reflect();
+        }));
     };
 
     Dispatcher.prototype.registerMetadata = function registerMetadata() {

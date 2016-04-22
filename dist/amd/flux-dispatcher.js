@@ -98,7 +98,10 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
                     promises.push(dispatcher.dispatchOwn.apply(dispatcher, [action, payload]));
                 });
 
-                _bluebird2.default.settle(promises).then(function () {
+                var reflects = promises.map(function (promise) {
+                    return promise.reflect();
+                });
+                _bluebird2.default.all(reflects).then(function () {
                     typePromise.resolve();
                 });
             });
@@ -117,7 +120,10 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
                 return defer.promise;
             });
 
-            _bluebird2.default.settle(allTypesPromises).then(function () {
+            var allTypesReflects = allTypesPromises.map(function (promise) {
+                return promise.reflect();
+            });
+            _bluebird2.default.all(allTypesReflects).then(function () {
                 var next = _this.queue.shift();
                 setTimeout(function () {
                     if (next !== undefined) {
@@ -142,7 +148,10 @@ define(['exports', 'bluebird', './instance-dispatcher'], function (exports, _blu
 
             var def = _bluebird2.default.defer();
 
-            _bluebird2.default.settle(typesPromises).then(function () {
+            var typesReflects = typesPromises.map(function (promise) {
+                return promise.reflect();
+            });
+            _bluebird2.default.all(typesReflects).then(function () {
                 _bluebird2.default.resolve(handler()).then(function (ret) {
                     def.resolve(ret);
                 }).catch(function (err) {

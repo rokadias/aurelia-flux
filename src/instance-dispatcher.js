@@ -73,7 +73,7 @@ export class Dispatcher {
             }
         });
 
-        return Promise.settle(promises);
+        return Promise.all(promises.map(function(promise) { return promise.reflect(); }));
     }
 
     registerMetadata() : void {

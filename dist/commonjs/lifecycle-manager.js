@@ -111,12 +111,12 @@ var LifecycleManager = exports.LifecycleManager = function () {
     };
 
     LifecycleManager.interceptContainerInvocation = function interceptContainerInvocation() {
-        if (_aureliaDependencyInjection.Container.instance === undefined || _aureliaDependencyInjection.Container.instance.invoke === undefined) {
+        if (_aureliaDependencyInjection.Container.prototype === undefined || _aureliaDependencyInjection.Container.prototype.invoke === undefined) {
             throw new Error('Unsupported version of Dependency Injection Container');
         }
 
-        var invokeImpl = _aureliaDependencyInjection.Container.instance.invoke;
-        _aureliaDependencyInjection.Container.instance.invoke = function () {
+        var invokeImpl = _aureliaDependencyInjection.Container.prototype.invoke;
+        _aureliaDependencyInjection.Container.prototype.invoke = function () {
             for (var _len4 = arguments.length, invokeArgs = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
                 invokeArgs[_key4] = arguments[_key4];
             }
@@ -124,13 +124,12 @@ var LifecycleManager = exports.LifecycleManager = function () {
             var args = invokeArgs[1],
                 instance;
 
-            if (Array.isArray(args) === false) {
-                throw new Error('Unsupported version of Dependency Injection Container');
+            var dispatcher;
+            if (Array.isArray(args) === true) {
+                dispatcher = args.find(function (item) {
+                    return item instanceof _instanceDispatcher.Dispatcher;
+                });
             }
-
-            var dispatcher = args.find(function (item) {
-                return item instanceof _instanceDispatcher.Dispatcher;
-            });
 
             if (dispatcher) {
                 var instancePromise = _bluebird2.default.defer();
